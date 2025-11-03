@@ -10,23 +10,23 @@ const CreateNewUser = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [accessCode, setAccessCode] = useState('')
   const navigate = useNavigate()
   const { auth } = useContext(AuthContext)
 
   const submit = () => {
-    createUser({ username, password, firstName, lastName })
+    createUser({ username, password, firstName, lastName, accessCode })
     .then ((response) => {
       getToken({ auth, username, password })
       .then ((response) => {
         navigate("/")
      })
-    })
-    
-    }
+    })  
+  }
   
   
   const SubmitButton = () => {
-    if (username && password && firstName && lastName && password === confirmPassword) {
+    if (username && password && firstName && lastName && accessCode && password === confirmPassword) {
       return(
       <div style={{ marginTop: 20 }}>
         <button onClick={() => submit()}>Submit</button>
@@ -94,7 +94,17 @@ const CreateNewUser = () => {
           value={lastName}
         />
       </div>
+
+      <div>
+        <div>Access Code:</div>
+        <input
+          onChange={(e) => setAccessCode(e.target.value)}
+          value={accessCode}
+        />
+      </div>
+
       <SubmitButton />
+
     </div>
   )
 }

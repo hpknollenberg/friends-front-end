@@ -1,26 +1,37 @@
-#page-content {
-  background-color: maroon;
+#page-content{
+  background-color: rgba(75, 0, 205, 0.5);
   color: white;
   display: flex;
   flex-direction: column;
   min-height: 85vh;
 }
 
+.header {
+  background-color: rgba(75, 0, 205, 0.5);
+  color: white;
+}
+
 .footer {
   margin-top: auto;
 }
 
-h1, h2, h3, h5, h6 {
+h2, h3, h5, h6 {
   text-shadow: 2px 2px 2px black
 }
 
 h1 {
   font-size: 3.5rem;
+  text-shadow: 4px 4px 4px black;
 }
+
 hr {
   border-color: goldenrod;
   border-width: 2px;
 }
 
+
+a {
+  color: white;
+}
 
 

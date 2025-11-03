@@ -2,28 +2,18 @@
 const Tabs = ({activeTab}) => {
     
     return (
-        <div>
+        <div style={{ marginTop: "5px", borderBottom: "solid", borderColor: "white" }}>
             <ul className="nav nav-tabs">
                 <li className="nav-item">
                     <a className={`nav-link ${(activeTab === "feed" ? "active" : "")}`} aria-current="page" href="/" style={{color: `${(activeTab === "feed") ? "black" : "white"}`}}>Feed</a>
                 </li>
-                <li className="nav-item">
-                    <a className={`nav-link ${(activeTab === "showtimes" ? "active" : "")}`} href="/showtimes" style={{color: `${(activeTab === "showtimes") ? "black" : "white"}` }}>Showtimes</a>
-                </li>
-                <li className="nav-item">
-                    <a className={`nav-link ${(activeTab === "upcomingfilms" ? "active" : "")}`} href="/upcomingfilms" style={{color: `${(activeTab === "upcomingfilms") ? "black" : "white"}` }}>Upcoming Films</a>
-                </li>
-                <li className="nav-item">
-                    <a className={`nav-link ${(activeTab === "menu" ? "active" : "")}`} href="/menu" style={{color: `${(activeTab === "menu") ? "black" : "white"}` }}>Menu</a>
-                </li>
-                <li className="nav-item">
-                    <a className={`nav-link ${(activeTab === "events" ? "active" : "")}`} href="/events" style={{color: `${(activeTab === "events") ? "black" : "white"}` }}>Events</a>
-                </li>
-                <li className="nav-item">
-                    <a className={`nav-link ${(activeTab === "polls" ? "active" : "")}`} href="/polls" style={{color: `${(activeTab === "polls") ? "black" : "white"}` }}>Polls</a>
-                </li>
+            
                 <li className="nav-item">
                     <a className={`nav-link ${(activeTab === "discussion" ? "active" : "")}`} href="/discussion" style={{color: `${(activeTab === "discussion") ? "black" : "white"}` }}>Discussion</a>
+                </li>
+
+                <li className="nav-item">
+                    <a className={`nav-link ${(activeTab === "profile" ? "active" : "")}`} href="/profile" style={{color: `${(activeTab === "profile") ? "black" : "white"}` }}>Profile</a>
                 </li>
                 
             </ul>

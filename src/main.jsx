@@ -23,6 +23,7 @@ import Polls from './Polls.jsx'
 import Discussion from './Discussion.jsx'
 import Protected from './protectedroute.jsx'
 import Events from './Events.jsx'
+import Profile from './Profile.jsx'
 
 
 function Layout() {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
           {
             path: 'events',
             element: <Events />
+          },
+          {
+            path: '/profile',
+            element: <Profile />
           }
         ]  
       },

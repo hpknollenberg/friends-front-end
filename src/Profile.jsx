@@ -6,7 +6,7 @@ import { baseUrl, getDiscussions, createComment, getComments, updateCommentLikes
 
 
 
-const Discussion = () => {
+const Profile = () => {
     const { auth } = useContext(AuthContext)
     const { admin, setAdmin } = useContext(AdminContext)
     const [discussions, setDiscussions] = useState([])
@@ -313,10 +313,9 @@ const Discussion = () => {
     return (
         <div className=''>
 
-            <Tabs activeTab="discussion"/>
+            <Tabs activeTab="profile"/>
 
             <div>
-                <DiscussionUpload />
                 <div style={{ maxWidth: '1000px'}}>
                     <DiscussionPosts />
                 </div>
@@ -325,4 +324,4 @@ const Discussion = () => {
     )
 }
 
-export default Discussion
+export default Profile

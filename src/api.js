@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 
-// export const baseUrl = "http://127.0.0.1:8000"
+export const baseUrl = "http://127.0.0.1:8000"
 // export const baseUrl = "https://project-theater.fly.dev"
 
-export const baseUrl = import.meta.env.VITE_BASE_URL
+// export const baseUrl = import.meta.env.VITE_BASE_URL
 console.log(baseUrl)
 
 
@@ -175,7 +175,7 @@ export const createThreadComment = ({auth, user, threadContent, comment}) => {
 }
 
 
-export const createUser = ({ username, password, firstName, lastName}) => {
+export const createUser = ({ username, password, firstName, lastName, accessCode }) => {
     return axios({
       method: 'post',
       url: `${baseUrl}/create-user/`, 

@@ -6,6 +6,7 @@ import { useContext } from "react"
 
 
 
+
 function Header() {
   const { auth } = useContext(AuthContext)
   const navigate = useNavigate()
@@ -18,9 +19,14 @@ function Header() {
 
 
   return (
-    <div style={{ padding: '10px', color: 'white', backgroundColor: 'black'}} className="d-flex justify-content-between">
-      <div style={{ fontWeight: 'bold' }}>Cinema Social</div>
-      <Link style={{ marginRight: '10px', color: "white" }} to='/login' onClick={() => {submit()}}>Logout</Link>
+    <div style={{ borderBottom: "solid", borderColor: "white", borderWidth: "2.5px" }} className="header">
+      <div style={{ padding: '10px', backgroundColor: 'rgba(120, 120, 125, 1)', 
+      borderBottom: "solid", borderColor: "white", borderWidth: "2.5px"}} className="d-flex justify-content-end">
+        <Link style={{ marginRight: '10px', color: "white" }} to='/login' onClick={() => {submit()}}>Logout</Link>
+      </div>
+
+      <h1 className="p-3 m-0">Friends</h1>
+      
     </div>
   )
 }

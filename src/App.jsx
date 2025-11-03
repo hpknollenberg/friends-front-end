@@ -25,16 +25,12 @@ function App() {
 
 
   return (
-    <div className='' >
-      <div className="">
-        <h1 className="p-5">The Kentucky Theater</h1>
-        <Tabs activeTab="feed" />
-      </div>
+    <div>
+      <Tabs activeTab="feed" />
       <div className="">
         <PostUpload />
         <Posts />
-      </div>
-      
+      </div>      
     </div>
   )
 }

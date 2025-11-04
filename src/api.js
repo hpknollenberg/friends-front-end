@@ -448,21 +448,24 @@ export const editPost = ({ auth, user, admin, id, editMessage, editImage }) => {
 }
 
 
-export const fetchUser = ({ auth }) => {
+export const editProfile = ({ auth, firstName, lastName, profilePicture }) => {
   return axios({
-    method: 'get',
-    url: `${baseUrl}/profile/`, 
+    method: 'put',
+    url: `${baseUrl}/edit-profile/`,
     headers: {
-      Authorization: `Bearer ${auth.accessToken}`
-      }
-    }).then(response => {
-        return response
-    })
-      .catch(error => {
-        console.log('FETCH USER ERROR: ', error)
-        auth.setAccessToken([])
-    })
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      first_name: firstName,
+      last_name: lastName,
+      profile_picture: profilePicture
+    }
+  }).then(response => {
+      console.log("EDIT PROFILE RESPONSE: ", response)
+      return response})
 }
+
 
 
 export const getComments = ({ auth }) => {
@@ -541,6 +544,25 @@ export const getPosts = ({ auth }) => {
     }
   })
 }
+
+
+
+export const getProfile = ({ auth }) => {
+  return axios({
+    method: 'get',
+    url: `${baseUrl}/get-profile`, 
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`
+      }
+    }).then(response => {
+        return response
+    })
+      .catch(error => {
+        console.log('FETCH USER ERROR: ', error)
+        auth.setAccessToken([])
+    })
+}
+
 
 
 export const getProfileVotes = ({ auth }) => {

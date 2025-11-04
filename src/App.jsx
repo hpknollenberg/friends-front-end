@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react"
 import { AdminContext, AuthContext, UserContext } from "./context"
-import { fetchUser, baseUrl } from "./api"
+import { getProfile, baseUrl } from "./api"
 import Tabs from "./Tabs"
 import PostUpload from "./PostUpload"
 import Posts from "./Posts"
@@ -14,7 +14,7 @@ function App() {
   const [lastName, setLastName] = useState("")
   
   useEffect(() => {
-    fetchUser({ auth })
+    getProfile({ auth })
     .then((response) => {
       setFirstName(response.data.first_name)
       setLastName(response.data.last_name)

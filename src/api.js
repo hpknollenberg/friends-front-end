@@ -448,7 +448,7 @@ export const editPost = ({ auth, user, admin, id, editMessage, editImage }) => {
 }
 
 
-export const editProfile = ({ auth, firstName, lastName, profilePicture }) => {
+export const editProfile = ({ auth, firstName, lastName, uploadImage, bio }) => {
   return axios({
     method: 'put',
     url: `${baseUrl}/edit-profile/`,
@@ -459,7 +459,8 @@ export const editProfile = ({ auth, firstName, lastName, profilePicture }) => {
     data: {
       first_name: firstName,
       last_name: lastName,
-      profile_picture: profilePicture
+      profile_picture: uploadImage,
+      bio: bio
     }
   }).then(response => {
       console.log("EDIT PROFILE RESPONSE: ", response)

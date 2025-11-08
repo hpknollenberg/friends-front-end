@@ -3,63 +3,49 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext, ToggleContext } from "./context"
 import { baseUrl, getProfile } from "./api"
 import ProfileEdit from "./ProfileEdit"
+import ProfileInfo from "./ProfileInfo"
 
 
 
 const Profile = () => {
     const { auth } = useContext(AuthContext)
-    const { universalToggle, setUniversalToggle } = useContext(ToggleContext)
     const [profile, setProfile] = useState([])
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [profilePicture, setProfilePicture] = useState("")
+    const [bio, setBio] = useState("")
     
     
     useEffect(() => {
         getProfile({auth})
         .then(response => {
             setProfile(response.data)
+            setProfilePicture(response.data.profile_picture)
+            setFirstName(response.data.first_name)
+            setLastName(response.data.last_name)
+            setBio(response.data.bio)
         })
-    }, [auth.accessToken, universalToggle])
+    }, [auth.accessToken])
 
     
-    
-
-    /*const PhotoUpload = () => {
-        return (
-            <div>
-                <input style={{ margin: '10px', width: '275px' }} type="file" accept='image/*' onChange={e => setProfilePicture(e.target.files[0])} />
-                <button style={{ margin: '10px' }} onClick={() => {submitProfileEdits()}}>Change Profile Picture</button>
-            </div>
-        )
-    }*/
-
-    const ProfilePictureDisplay = ({image}) => {
-        if (image) {
-            return(
-                <div>
-                    <img src={`${baseUrl}${image}`} />
-                </div>
-            )           
-        }
-    }
-
-    /*const submitProfileEdits = () => {
-        editProfile({auth, firstName, lastName, profilePicture})
-        .then(response => {
-            console.log("PROFILE INFO: ", response.data)
-            setProfile(response.data)
-        })
-    }*/
 
     return (
-        <div className=''>
-
+        <div>
             <Tabs activeTab="profile"/>
-            <h2 className="p-3">{profile.first_name} {profile.last_name}</h2>
-            <ProfilePictureDisplay image={profile.profile_picture} />
-            {/*<PhotoUpload />*/}
-            <ProfileEdit />
+            <div style={{display: "flex"}}>
+                <ProfileInfo 
+                    profilePicture={profilePicture} 
+                    setProfilePicture={setProfilePicture}
+                    lastName={lastName}
+                    setLastName={setLastName}
+                    firstName={firstName}
+                    setFirstName={setFirstName}
+                    bio={bio}
+                    setBio={setBio} />
+            </div>
+            <ProfileEdit 
+                profilePicture={profilePicture} 
+                setProfilePicture={setProfilePicture}/>
         </div>
     )
 }

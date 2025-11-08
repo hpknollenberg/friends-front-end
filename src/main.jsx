@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { AuthContextProvider, UserContextProvider, AdminContextProvider, ToggleContextProvider } from './context'
+import 'uuid'
 
 //project styles
 import 'bootstrap/dist/css/bootstrap.min.css'

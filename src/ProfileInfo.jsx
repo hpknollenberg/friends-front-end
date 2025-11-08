@@ -1,11 +1,30 @@
-import { baseUrl, editProfile } from "./api"
+import { baseUrl, editProfileBio } from "./api"
 import { AuthContext, ToggleContext } from "./context"
-import { useContext, useState } from "react"
-import { v4 as uuidv4 } from "uuid"
+import { useContext, useState, useEffect } from "react"
 
 
 const ProfileInfo = ({profilePicture, setProfilePicture, lastName, setLastName, firstName, setFirstName, bio, setBio}) => {
     const { auth } = useContext(AuthContext)
+    const [ textColor, setTextColor ] = useState("black")
+    const [ tempBio, setTempBio ] = useState(bio)
+
+    
+    
+
+    const bioChange = (bioText) => {
+        setTempBio(bioText)
+        setTextColor("red")
+    }
+
+
+    const bioUpdate = () => {
+        editProfileBio({auth: auth, bio: bio})
+        .then(response => {
+            if (response.status = 200) {
+                setTextColor("black")
+            }
+        })
+    }
 
 
     const ProfilePictureDisplay = () => {
@@ -25,10 +44,14 @@ const ProfileInfo = ({profilePicture, setProfilePicture, lastName, setLastName, 
             <div style={{display: "flex"}}>
                 <ProfilePictureDisplay image={profilePicture} />
                 <div>
-                    <h2 className="p-3">{firstName} {lastName}</h2>
-                    <p className="p-3" style={{display:"flex", alignItems: "start"}}>Bio: 
-                        <span> </span>
-                        <textarea style={{ height: '100px', width: '375px', margin: "10px" }} value={bio} onChange={e => setBio(e.target.value)} ></textarea>
+                    <h2 style={{ padding: "2.5%" }}>{firstName} {lastName}</h2>
+                    <p style={{display:"flex", alignItems: "start", padding: "2.5%" }}>Bio: 
+                        <textarea style={{ height: '100px', width: '375px', marginLeft: "2.5%", color: textColor }} 
+                            value={tempBio} 
+                            onChange={e => bioChange(e.target.value)} ></textarea>
+                        <button style={{ width: '100px', marginLeft: "2.5%"}}
+                            onClick={bioUpdate()}>
+                            Save Bio</button>
                     </p>
                 </div>
             </div>

@@ -460,10 +460,44 @@ export const editProfile = ({ auth, firstName, lastName, uploadImage, bio }) => 
       first_name: firstName,
       last_name: lastName,
       profile_picture: uploadImage,
-      bio: bio
+      profile_bio: bio
     }
   }).then(response => {
       console.log("EDIT PROFILE RESPONSE: ", response)
+      return response})
+}
+
+
+export const editProfileBio = ({ auth, bio }) => {
+  return axios({
+    method: 'put',
+    url: `${baseUrl}/edit-profile-bio/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      profile_bio: bio,
+    }
+  }).then(response => {
+      console.log("EDIT PROFILE PICTURE RESPONSE: ", response)
+      return response})
+}
+
+
+export const editProfilePicture = ({ auth, uploadImage }) => {
+  return axios({
+    method: 'put',
+    url: `${baseUrl}/edit-profile-picture/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      profile_picture: uploadImage,
+    }
+  }).then(response => {
+      console.log("EDIT PROFILE PICTURE RESPONSE: ", response)
       return response})
 }
 

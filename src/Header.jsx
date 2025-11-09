@@ -4,9 +4,6 @@ import { useContext } from "react"
 
 
 
-
-
-
 function Header() {
   const { auth } = useContext(AuthContext)
   const navigate = useNavigate()
@@ -25,7 +22,7 @@ function Header() {
         <Link style={{ marginRight: '10px', color: "white" }} to='/login' onClick={() => {submit()}}>Logout</Link>
       </div>
 
-      <h1 className="p-3 m-0">Friends</h1>
+      <h1 className="p-3 m-0">The World River</h1>
       
     </div>
   )

@@ -1,6 +1,6 @@
 import Tabs from "./Tabs"
 import { useContext, useEffect, useState } from "react"
-import { AuthContext, ToggleContext } from "./context"
+import { AuthContext } from "./context"
 import { baseUrl, getProfile, editProfilePicture } from "./api"
 import ProfileInfo from "./ProfileInfo"
 import { v4 as uuidv4 } from "uuid"

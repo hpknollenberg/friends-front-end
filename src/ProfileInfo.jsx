@@ -1,5 +1,5 @@
 import { baseUrl, editProfileBio, editProfileName } from "./api"
-import { AuthContext, ToggleContext } from "./context"
+import { AuthContext } from "./context"
 import { useContext, useState, useEffect } from "react"
 
 

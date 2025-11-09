@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import PollsUpload from "./PollsUpload"
 import Tabs from "./Tabs"
 import { getPolls, createVote, deletePoll, getProfileVotes } from "./api"
-import { AdminContext, AuthContext, ToggleContext, UserContext } from "./context"
+import { AdminContext, AuthContext, UserContext } from "./context"
 
 
 

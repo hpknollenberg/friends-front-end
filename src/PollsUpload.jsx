@@ -1,5 +1,5 @@
 import { useState, useContext } from "react"
-import { AdminContext, AuthContext, ToggleContext, UserContext } from "./context"
+import { AdminContext, AuthContext, UserContext } from "./context"
 import { createPoll } from "./api"
 import { v4 as uuidv4 } from 'uuid'
 
@@ -12,7 +12,6 @@ const PollsUpload = () => {
   const { auth } = useContext(AuthContext)
   const { user, setUser } = useContext(UserContext)
   const [pollId, setPollId] = useState(uuidv4())
-  const {universalToggle, setUniversalToggle} = useContext(ToggleContext)
 
 
     if (admin === true) {

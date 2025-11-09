@@ -9,7 +9,7 @@ const Tabs = ({activeTab}) => {
                 </li>
             
                 <li className="nav-item">
-                    <a className={`nav-link ${(activeTab === "discussion" ? "active" : "")}`} href="/discussion" style={{color: `${(activeTab === "discussion") ? "black" : "white"}` }}>Discussion</a>
+                    <a className={`nav-link ${(activeTab === "chat" ? "active" : "")}`} href="/chat" style={{color: `${(activeTab === "chat") ? "black" : "white"}` }}>Chat</a>
                 </li>
 
                 <li className="nav-item">

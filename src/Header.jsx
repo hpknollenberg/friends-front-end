@@ -16,9 +16,9 @@ function Header() {
 
 
   return (
-    <div style={{ borderBottom: "solid", borderColor: "white", borderWidth: "2.5px" }} className="header">
-      <div style={{ padding: '10px', backgroundColor: 'rgba(120, 120, 125, 1)', 
-      borderBottom: "solid", borderColor: "white", borderWidth: "2.5px"}} className="d-flex justify-content-end">
+    <div style={{ borderBottom: "solid", borderColor: "white", borderWidth: "2.5px", boxShadow: "5px 5px 10px black" }} className="header">
+      <div style={{ padding: '10px', backgroundColor: 'rgba(120, 120, 125, 1)',
+      borderBottom: "solid", borderColor: "white", borderWidth: "2.5px", boxShadow: "5px 5px 10px black"}} className="d-flex justify-content-end">
         <Link style={{ marginRight: '10px', color: "white" }} to='/login' onClick={() => {submit()}}>Logout</Link>
       </div>
 

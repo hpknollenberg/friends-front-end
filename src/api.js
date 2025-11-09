@@ -498,6 +498,23 @@ export const editProfilePicture = ({ auth, uploadImage }) => {
 }
 
 
+export const editUsername = ({ auth, username }) => {
+  return axios({
+    method: 'put',
+    url: `${baseUrl}/edit-username/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      username: username,
+    }
+  }).then(response => {
+      console.log("EDIT USERNAME RESPONSE: ", response)
+      return response})
+}
+
+
 
 export const getComments = ({ auth }) => {
   return axios({

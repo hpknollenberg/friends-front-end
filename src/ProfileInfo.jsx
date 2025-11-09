@@ -1,9 +1,9 @@
-import { baseUrl, editProfileBio, editProfileName } from "./api"
+import { baseUrl, editProfileBio, editProfileName, editUsername } from "./api"
 import { AuthContext } from "./context"
 import { useContext, useState, useEffect } from "react"
 
 
-const ProfileInfo = ({profilePicture, setProfilePicture, lastName, setLastName, firstName, setFirstName, bio, setBio}) => {
+const ProfileInfo = ({profilePicture, setProfilePicture, lastName, setLastName, firstName, setFirstName, bio, username}) => {
     const { auth } = useContext(AuthContext)
     
 
@@ -119,11 +119,67 @@ const ProfileInfo = ({profilePicture, setProfilePicture, lastName, setLastName, 
     const ProfilePictureDisplay = () => {
         if (profilePicture) {
             return(
-                <div style={{display: 'block', width: '200px', height: '200px', margin: '10px', marginBottom: '25px', borderRadius: "50%", borderStyle: 'solid', borderColor: 'black'}}>
+                <div style={{display: 'block', width: '200px', height: '200px', margin: '10px', marginBottom: '25px', borderRadius: "50%", borderStyle: 'solid', borderColor: 'black', borderWidth: "5px", boxShadow: "10px 10px 10px black"}}>
                     <img src={`${baseUrl}${profilePicture}`} 
-                        style={{ borderRadius: "50%", margin: '2.5%', width: "95%", height: '95%', color: 'white', objectFit: "cover"}} />
+                        style={{ borderRadius: "50%", width: "100%", height: '100%', color: 'white', objectFit: "cover"}} />
                 </div>
             )           
+        }
+    }
+
+
+    const ProfileUserNameDisplay = () => {
+        const [ editUser, setEditUser ] = useState(false)
+        const [ tempUsername, setTempUsername ] = useState(username)
+        const [ currentUsername, setCurrentUsername ] = useState(username)
+
+        useEffect(() => {
+            setTempUsername(currentUsername)
+        }, [editUsername])
+
+
+        const usernameUpdate = () => {
+            editUsername({auth: auth, username: tempUsername})
+            .then((response) => {
+                if (response.status = 200) {
+                    setTempUsername(response.data.username)
+                    setEditUser(false)
+                    setCurrentUsername(response.data.username)
+                }
+            })
+        }
+
+
+        if (editUser) {
+            return(
+                <div style={{display: "flex", alignItems: "center"}}>
+                    <div style={{display: "flex", flexDirection: "column"}}>
+                        <div style={{display: "flex", alignItems: "center"}}>
+                            <p style={{width: "100px", margin: "2.5%", fontWeight: "bold"}}>Username: </p>
+                            <input type="text"
+                                value={tempUsername}
+                                style={{width: "200px", height: "30px"}}
+                                onChange={e => setTempUsername(e.target.value)}/>
+                        </div>
+                    </div>
+                    <div>
+                        <button style={{ marginLeft: "30px", marginBottom: "2.5%", width: "150px", height: "30px "}}
+                            onClick={() => usernameUpdate()}>
+                            Save Changes</button>
+                        <button style={{ marginLeft: "10px", marginTop: "2.5%", width: "150px", height: "30px" }} 
+                            onClick={() => setEditUser(false)}
+                            >Discard Changes</button> 
+                    </div>
+                </div>
+            )
+        } else {
+            return(
+                <div style={{display: "flex", alignItems: "center"}}>
+                    <p style={{ margin: "2.5%", fontWeight: "bold" }}>Username: {currentUsername}</p>
+                    <button style={{ width: '125px', marginLeft: "2.5%"}}
+                        onClick={() => setEditUser(true)}>Edit Username</button>
+                </div>
+            )
         }
     }
     
@@ -135,6 +191,7 @@ const ProfileInfo = ({profilePicture, setProfilePicture, lastName, setLastName, 
                 <div>
                     <ProfileNameDisplay />
                     <ProfileBioDisplay />
+                    <ProfileUserNameDisplay />
                 </div>
             </div>
 

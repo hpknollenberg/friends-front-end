@@ -1,6 +1,6 @@
 import Tabs from "./Tabs"
 import { useContext, useEffect, useState } from "react"
-import { AuthContext } from "./context"
+import { AuthContext, UserContext } from "./context"
 import { baseUrl, getProfile, editProfilePicture } from "./api"
 import ProfileInfo from "./ProfileInfo"
 import { v4 as uuidv4 } from "uuid"
@@ -9,11 +9,13 @@ import { v4 as uuidv4 } from "uuid"
 
 const Profile = () => {
     const { auth } = useContext(AuthContext)
+    const { user, setUser } = useContext(UserContext)
     const [profile, setProfile] = useState([])
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [profilePicture, setProfilePicture] = useState("")
     const [bio, setBio] = useState("")
+    const [ username, setUsername ] = useState("")
     const [uploadImage, setUploadImage] = useState("")
     const [fileInputKey, setFileInputKey] = useState(uuidv4())
     
@@ -21,11 +23,13 @@ const Profile = () => {
     useEffect(() => {
         getProfile({auth})
         .then(response => {
+            console.log(response)
             setProfile(response.data)
             setProfilePicture(response.data.profile_picture)
             setFirstName(response.data.first_name)
             setLastName(response.data.last_name)
             setBio(response.data.profile_bio)
+            setUsername(response.data.user.username)
         })
     }, [auth.accessToken])
 
@@ -55,7 +59,8 @@ const Profile = () => {
                     setLastName={setLastName}
                     firstName={firstName}
                     setFirstName={setFirstName}
-                    bio={bio} />
+                    bio={bio}
+                    username={username} />
             </div>
             <p style={{ marginLeft: "10px", marginBottom: "5px", fontWeight: "bold"}}>Change Profile Picture:</p>
             <input style={{ marginLeft: "10px", marginBottom: "5px", width: '275px' }} 

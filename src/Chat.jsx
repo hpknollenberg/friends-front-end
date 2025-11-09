@@ -59,12 +59,12 @@ const Chat = () => {
     const MessageProfilePicture = ({author, picture, firstName}) => {
         if (author !== user) {
             return(
-                <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                    <div style={{display: 'block', width: '75px', height: '75px', margin: '10px', borderRadius: "50%", borderStyle: 'solid', borderColor: 'black'}}>
-                        <img style={{ borderRadius: "50%", margin: '2.5%', width: "95%", height: '95%', borderColor: "black", objectFit: "cover"}}
+                <div style={{ display: "flex", flexDirection: "column", margin: "10px", borderRight: "solid", borderColor: "grey", borderWidth: "1px", paddingRight: "10px" }}>
+                    <div style={{display: 'block', width: '75px', height: '75px', borderRadius: "50%", borderStyle: 'solid', borderColor: 'black', boxShadow: "5px 5px 10px black"}}>
+                        <img style={{ borderRadius: "50%", width: "100%", height: "100%", borderColor: "black", objectFit: "cover"}}
                         src={`${baseUrl}${picture}`} />                  
                     </div>
-                    <p style={{ display: "flex", justifyContent: "center", fontWeight: "bold" }}>{firstName}</p>
+                    <p style={{ display: "flex", justifyContent: "center", fontWeight: "bold", marginBottom: "0", textShadow: "5px 5px 10px black" }}>{firstName}</p>
                 </div>
             )
         }
@@ -99,7 +99,6 @@ const Chat = () => {
 
         useEffect(() => {
             if (chatBoxRef.current) {
-                console.log("Scroll top will now be: ", chatBoxRef.current.scrollHeight)
                 chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight
             }
         })
@@ -107,16 +106,16 @@ const Chat = () => {
 
         return (
             <div ref={chatBoxRef} style={{ overflowY: overflowNecessary && "scroll",
-                                            width: "800px", height: "475px", border: "solid", boxShadow: "10px 10px 10px black" }} >
+                                            width: "800px", height: "475px", border: "solid", boxShadow: "5px 5px 10px black" }} >
                 {messages && messages.map((message) => {
                     return (
                         <div key={message.id} 
-                            style={{ margin: "25px", display: "flex", justifyContent: message.author.id == user ? "end" : "start"}}>
-                            <div style={{ display: "flex", alignItems: "center" }}>  
-                                <MessageProfilePicture author={message.author.id} picture={message.profile_picture} firstName={message.author.first_name} />
-                                <div style={{display: "flex", flexDirection: "column", alignItems: "end", marginLeft: "50px"}}>
+                            style={{ borderBottom: "solid", borderColor: "grey", borderWidth: "1px", display: "flex", justifyContent: message.author.id == user ? "end" : "start"}}>
+                            <div style={{ display: "flex", alignItems: "center", margin: "2.5%", marginLeft: "0px" }}>  
+                                <MessageProfilePicture author={message.author.id} picture={message.author.profile_picture} firstName={message.author.first_name} />
+                                <div style={{display: "flex", flexDirection: "column", alignItems: message.author.id === user ? "end" : "start", marginLeft: "50px"}}>
                                     <MessageImage image={message.image}/>
-                                    <p>{message.content}</p>
+                                    <p style={{margin: "0px"}}>{message.content}</p>
                                 </div>
                             </div>
                             <DeleteMessageButton message={message.id} author={message.author}/>

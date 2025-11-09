@@ -121,7 +121,7 @@ const ProfileInfo = ({profilePicture, setProfilePicture, lastName, setLastName, 
             return(
                 <div style={{display: 'block', width: '200px', height: '200px', margin: '10px', marginBottom: '25px', borderRadius: "50%", borderStyle: 'solid', borderColor: 'black'}}>
                     <img src={`${baseUrl}${profilePicture}`} 
-                        style={{ borderRadius: "50%", borderStyle: "", margin: '2.5%', width: "95%", height: '95%', color: 'white', objectFit: "cover"}} />
+                        style={{ borderRadius: "50%", margin: '2.5%', width: "95%", height: '95%', color: 'white', objectFit: "cover"}} />
                 </div>
             )           
         }

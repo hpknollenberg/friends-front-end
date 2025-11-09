@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import { AdminContext, AuthContext, ToggleContext, UserContext } from "./context"
-import { createDiscussion } from "./api"
+import { createMessage } from "./api"
 
 
 const DiscussionUpload = () => {
@@ -8,37 +8,31 @@ const DiscussionUpload = () => {
     const { admin, setAdmin } = useContext(AdminContext)
     const { user, setUser } = useContext(UserContext)
     const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
+    const [content, setContent] = useState("")
     const [image, setImage] = useState("")
     const {universalToggle, setUniversalToggle} = useContext(ToggleContext)
 
-    const submitDiscussion = () => {
-        createDiscussion({auth, user, admin, title, description, image})
-        .then(() => setUniversalToggle(universalToggle => !universalToggle))
-    }
 
-
-    if (admin === true) {
-        return (
-            <div>
-                <div style={{ margin: "10px" }}>
-                    Title: 
-                    <input type="text" style={{ margin: "10px" }} onChange={e => setTitle(e.target.value)}/>
-                </div>
-                <div style= {{ margin: "10px", display: "flex", alignItems: "center"}} >
-                    Description:
-                    <textarea style={{ margin: "10px", width: "300px" }} onChange={e => setDescription(e.target.value)}></textarea>
-                </div>
-                <div>
-                    <input style={{ margin: '10px', width: '275px' }} type="file" accept='image/*' onChange={e => setImage(e.target.files[0])} />
-                </div>
-                <button style={{ margin: '10px' }} onClick={() => submitDiscussion()}>Submit Discussion</button>
-                <hr></hr>
-            </div>
-        )
+    const sendMessage = () => {
+        createMessage({auth, user, content, image})
     }
 
     
+    return (
+        <div style={{display: "flex", justifyContent: "end"}}>
+            <div>
+                <div style= {{ justifyContent: "end", margin: "10px", display: "flex", alignItems: "center"}} >
+                    <textarea style={{ width: "500px" }} onChange={e => setContent(e.target.value)}></textarea>
+                </div>
+                <div style={{display: "flex", justifyContent:"end"}}>
+                    <input style={{ margin: '10px', width: '205px' }} type="file" accept='image/*' onChange={e => setImage(e.target.files[0])} />
+                </div>
+                <div style={{ display: "flex", justifyContent: "end", margin: '10px' }}>
+                    <button onClick={() => sendMessage()}>Send Message</button>
+                </div>
+            </div>
+        </div>
+    ) 
 }
 
 export default DiscussionUpload

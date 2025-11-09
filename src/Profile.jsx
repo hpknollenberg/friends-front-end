@@ -55,9 +55,9 @@ const Profile = () => {
                     setLastName={setLastName}
                     firstName={firstName}
                     setFirstName={setFirstName}
-                    bio={bio}
-                    setBio={setBio} />
+                    bio={bio} />
             </div>
+            <p style={{ marginLeft: "10px", marginBottom: "5px", fontWeight: "bold"}}>Change Profile Picture:</p>
             <input style={{ marginLeft: "10px", marginBottom: "5px", width: '275px' }} 
                 key={fileInputKey} 
                 type="file" 

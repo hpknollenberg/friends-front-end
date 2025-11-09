@@ -480,7 +480,25 @@ export const editProfileBio = ({ auth, bio }) => {
       profile_bio: bio,
     }
   }).then(response => {
-      console.log("EDIT PROFILE PICTURE RESPONSE: ", response)
+      console.log("EDIT PROFILE BIO RESPONSE: ", response)
+      return response})
+}
+
+
+export const editProfileName = ({ auth, firstName, lastName }) => {
+  return axios({
+    method: 'put',
+    url: `${baseUrl}/edit-profile-name/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      first_name: firstName,
+      last_name: lastName
+    }
+  }).then(response => {
+      console.log("EDIT PROFILE BIO RESPONSE: ", response)
       return response})
 }
 

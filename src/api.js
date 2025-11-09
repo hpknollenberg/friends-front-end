@@ -448,25 +448,6 @@ export const editPost = ({ auth, user, admin, id, editMessage, editImage }) => {
 }
 
 
-export const editProfile = ({ auth, firstName, lastName, uploadImage, bio }) => {
-  return axios({
-    method: 'put',
-    url: `${baseUrl}/edit-profile/`,
-    headers: {
-      Authorization: `Bearer ${auth.accessToken}`,
-      'Content-Type': 'multipart/form-data'
-    },
-    data: {
-      first_name: firstName,
-      last_name: lastName,
-      profile_picture: uploadImage,
-      profile_bio: bio
-    }
-  }).then(response => {
-      console.log("EDIT PROFILE RESPONSE: ", response)
-      return response})
-}
-
 
 export const editProfileBio = ({ auth, bio }) => {
   return axios({

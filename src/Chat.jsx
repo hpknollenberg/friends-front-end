@@ -3,6 +3,7 @@ import ChatUpload from "./ChatUpload.jsx"
 import { useContext, useEffect, useState, useRef } from "react"
 import { AuthContext, UserContext } from "./context"
 import { baseUrl, getMessages, deleteMessage } from "./api"
+import useWebSocket, { ReadyState } from "react-use-websocket"
 
 
 
@@ -12,6 +13,7 @@ const Chat = () => {
     const [ deleteCheck, setDeleteCheck ] = useState(false)
     const [ deleteId, setDeleteId ] = useState(0)
     const [ newMessages, setNewMessages ] = useState([])
+    const socket = useRef(null)
 
 
     const submitDeleteMessage = ({message}) => {
@@ -75,6 +77,9 @@ const Chat = () => {
         const [ messages, setMessages ] = useState([])
         const [ overflowNecessary, setOverFlowNecessary ] = useState(false)
         const chatBoxRef = useRef(null)
+        const WS_URL = "ws://127.0.0.1:8000/ws/chat/"
+        
+        const [ updateMessages, setUpdateMessages ] = useState(false)
 
 
         useEffect(() => {
@@ -82,7 +87,7 @@ const Chat = () => {
             .then(response => {
                 setMessages(response.data)
             })
-        }, [])
+        }, [updateMessages])
 
         useEffect(() => {
             setMessages(newMessages)
@@ -97,12 +102,50 @@ const Chat = () => {
             }
         }, [messages])
 
+
         useEffect(() => {
             if (chatBoxRef.current) {
                 chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight
             }
         })
 
+
+        useEffect(() => {
+            if (!socket.current) {
+                socket.current = new WebSocket(WS_URL)
+            
+                socket.current.onopen = () => {
+                    console.log("connection opened")
+                }
+
+                socket.current.onerror = (event) => {
+                    console.error("error:", event)
+                }
+
+                socket.current.onclose = (event) => {
+                    console.log("closed:", event)
+                }
+            }
+        }, [])
+
+
+        useEffect(() => {
+            if (socket.current) {
+                socket.current.onmessage = (event) => {
+                    console.log('NEW MESSAGE: ', event.data)
+                    const eventData = JSON.parse(event.data)
+                    if (eventData.message === "successful") {
+                        setUpdateMessages(!updateMessages)
+                    }
+                }
+            }
+
+            return () => {
+                if (socket.current) {
+                    socket.current.onmessage = null
+                }
+            }
+        }, [socket])
 
         return (
             <div ref={chatBoxRef} style={{ overflowY: overflowNecessary && "scroll",
@@ -132,7 +175,7 @@ const Chat = () => {
             <Tabs activeTab="chat"/>
             <div style={{display: "flex", margin: "10px"}}>
                 <Messages />
-                <ChatUpload newMessages={newMessages} setNewMessages={setNewMessages}/>
+                <ChatUpload newMessages={newMessages} setNewMessages={setNewMessages} socket={socket}/>
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import { createMessage, getMessages } from "./api"
 import { v4 as uuidv4 } from "uuid"
 
 
-const ChatUpload = ({newMessages, setNewMessages}) => {
+const ChatUpload = ({newMessages, setNewMessages, socket}) => {
     const { auth } = useContext(AuthContext)
     const { user, setUser } = useContext(UserContext)
     const [content, setContent] = useState("")
@@ -12,18 +12,25 @@ const ChatUpload = ({newMessages, setNewMessages}) => {
     const [ fileKey, setFileKey ] = useState(uuidv4())
 
 
+    let testFunction = async () => {
+        return socket.current.send("hello")
+    }
     const sendMessage = () => {
         if (content.trim() != "" || image != "") {
-            createMessage({auth, user, content, image})
+            testFunction()
             .then(response => {
-                console.log("CREATE MESSAGE RESPONSE: ", response)
-                getMessages({auth})
+                createMessage({auth, user, content, image})
                 .then(response => {
-                    console.log("GET MESSAGES AFTER NEW MESSAGE RESPONSE: ", response)
-                    setNewMessages(response.data)
-                    setContent("")
-                    setFileKey(uuidv4())
-                    setImage("")
+                    console.log("CREATE MESSAGE RESPONSE: ", response)
+                    getMessages({auth})
+                    .then(response => {
+                        console.log("GET MESSAGES AFTER NEW MESSAGE RESPONSE: ", response)
+                        setNewMessages(response.data)
+                        setContent("")
+                        setFileKey(uuidv4())
+                        setImage("")
+                        
+                    })
                 })
             })
         }

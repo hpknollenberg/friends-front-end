@@ -1,36 +1,31 @@
 import { useContext, useState } from "react"
-import { AuthContext, UserContext } from "./context"
+import { AuthContext, UserContext, NewMessageContext } from "./context"
 import { createMessage, getMessages } from "./api"
 import { v4 as uuidv4 } from "uuid"
 
 
-const ChatUpload = ({newMessages, setNewMessages, socket}) => {
+const ChatUpload = ({socket}) => {
     const { auth } = useContext(AuthContext)
     const { user, setUser } = useContext(UserContext)
     const [content, setContent] = useState("")
     const [image, setImage] = useState("")
     const [ fileKey, setFileKey ] = useState(uuidv4())
+    const { newMessage, setNewMessage } = useContext(NewMessageContext)
 
 
-    let testFunction = async () => {
-        return socket.current.send("hello")
+    let sendSocket = async () => {
+        return socket.current.send("ping")
     }
+
     const sendMessage = () => {
         if (content.trim() != "" || image != "") {
-            testFunction()
+            sendSocket()
             .then(response => {
                 createMessage({auth, user, content, image})
-                .then(response => {
-                    console.log("CREATE MESSAGE RESPONSE: ", response)
-                    getMessages({auth})
-                    .then(response => {
-                        console.log("GET MESSAGES AFTER NEW MESSAGE RESPONSE: ", response)
-                        setNewMessages(response.data)
-                        setContent("")
-                        setFileKey(uuidv4())
-                        setImage("")
-                        
-                    })
+                .then(response => {  
+                    setContent("")
+                    setFileKey(uuidv4())
+                    setImage("") 
                 })
             })
         }

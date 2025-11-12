@@ -5,7 +5,7 @@ import {
   RouterProvider,
   Outlet,
 } from 'react-router-dom'
-import { AuthContextProvider, UserContextProvider, AdminContextProvider } from './context'
+import { AuthContextProvider, UserContextProvider, AdminContextProvider, NewMessageContextProvider } from './context'
 import 'uuid'
 
 //project styles
@@ -94,7 +94,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <AdminContextProvider>
       <UserContextProvider>
         <AuthContextProvider>
-          <RouterProvider router={router} />
+          <NewMessageContextProvider>
+            <RouterProvider router={router} />
+          </NewMessageContextProvider>
         </AuthContextProvider>
       </UserContextProvider>
     </AdminContextProvider> 

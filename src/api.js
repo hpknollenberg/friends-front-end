@@ -560,7 +560,7 @@ export const getMenuItems = ({ auth }) => {
 }
 
 
-export const getMessages = ({ auth, count=100 }) => {
+export const getMessages = ({ auth, count }) => {
   return axios({
     method: 'get',
     url: `${baseUrl}/get-messages/`, 

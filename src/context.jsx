@@ -67,3 +67,16 @@ export const AuthContextProvider = ({ children }) => {
       </AdminContext.Provider>
     )
   }
+
+
+  export const NewMessageContext = createContext()
+
+  export const NewMessageContextProvider = ({ children }) => {
+    const [newMessage, setNewMessage] = useState(0)
+
+    return(
+      <NewMessageContext.Provider value={{newMessage, setNewMessage}}>
+        {children}
+      </NewMessageContext.Provider>
+    )
+  }

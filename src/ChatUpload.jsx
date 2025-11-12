@@ -38,20 +38,12 @@ const ChatUpload = ({newMessages, setNewMessages, socket}) => {
 
     
     return (
-        <div style={{backgroundColor: "rgba(75, 0, 205, 0.5)", border: "solid", height: "min-content", marginLeft: "15px", boxShadow: "5px 5px 10px black"}}>
-            <div style={{display: "flex", justifyContent: "end"}}>
-                <div>
-                    <div style= {{ justifyContent: "end", margin: "10px", display: "flex", alignItems: "center"}} >
-                        <textarea value={content} style={{ width: "500px" }} onChange={e => setContent(e.target.value)}></textarea>
-                    </div>
-                    <div style={{display: "flex", justifyContent:"end"}}>
-                        <input key={fileKey} style={{ margin: '10px', width: '205px' }} type="file" accept='image/*' onChange={e => setImage(e.target.files[0])} />
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "end", margin: '10px' }}>
-                        <button onClick={() => sendMessage()}>Send Message</button>
-                    </div>
-                </div>
+        <div style={{backgroundColor: "rgba(75, 0, 205, 0.5)", height: "fit-content", border: "solid", boxShadow: "5px 5px 10px black"}} className="col-lg-5 col-12 ms-lg-2 ms-0 mt-lg-0 mt-2 d-flex flex-column align-items-end">
+            <textarea value={content} className="mt-2 w-100" onChange={e => setContent(e.target.value)}></textarea>
+            <div className="d-flex justify-content-end">
+                <input key={fileKey} className="mt-3 w-75" type="file" accept='image/*' onChange={e => setImage(e.target.files[0])} />
             </div>
+            <button className="mt-3 mb-3" onClick={() => sendMessage()}>Send Message</button>    
         </div>
     ) 
 }

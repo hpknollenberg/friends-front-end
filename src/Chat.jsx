@@ -1,9 +1,10 @@
 import Tabs from "./Tabs"
 import ChatUpload from "./ChatUpload.jsx"
 import { useContext, useEffect, useState, useRef } from "react"
+import { config } from "react-spring"
+import useScrollTo from 'react-spring-scroll-to-hook'
 import { AuthContext, UserContext } from "./context"
 import { baseUrl, getMessages, deleteMessage } from "./api"
-import useWebSocket, { ReadyState } from "react-use-websocket"
 
 
 
@@ -52,7 +53,7 @@ const Chat = () => {
         if (image) {
             return(
                 <img src={`${baseUrl}${image}`} 
-                    style={{maxHeight: '200px'}} />
+                    style={{maxHeight: '200px', maxWidth: "100%"}} />
             )
         }
     }
@@ -61,8 +62,8 @@ const Chat = () => {
     const MessageProfilePicture = ({author, picture, firstName}) => {
         if (author !== user) {
             return(
-                <div style={{ display: "flex", flexDirection: "column", margin: "10px", borderRight: "solid", borderColor: "grey", borderWidth: "1px", paddingRight: "10px" }}>
-                    <div style={{display: 'block', width: '75px', height: '75px', borderRadius: "50%", borderStyle: 'solid', borderColor: 'black', boxShadow: "5px 5px 10px black"}}>
+                <div style={{ display: "flex", flexDirection: "column", margin: "10px", borderRight: "solid", borderColor: "grey", borderWidth: "1px", paddingRight: "15px", height: "fit-content" }}>
+                    <div style={{display: 'block', height: '67.5px', width: '67.5px', borderRadius: "50%", borderStyle: 'solid', borderColor: 'black', boxShadow: "5px 5px 10px black"}}>
                         <img style={{ borderRadius: "50%", width: "100%", height: "100%", borderColor: "black", objectFit: "cover"}}
                         src={`${baseUrl}${picture}`} />                  
                     </div>
@@ -78,16 +79,33 @@ const Chat = () => {
         const [ overflowNecessary, setOverFlowNecessary ] = useState(false)
         const chatBoxRef = useRef(null)
         const WS_URL = "ws://127.0.0.1:8000/ws/chat/"
-        
+        const [ chatScrollTop, setChatScrollTop ] = useState(chatBoxRef?.current?.scrollTop)
         const [ updateMessages, setUpdateMessages ] = useState(false)
+        const [ haltUpdate, setHaltUpdate ] = useState(false)
 
 
         useEffect(() => {
-            getMessages({auth})
-            .then(response => {
-                setMessages(response.data)
-            })
-        }, [updateMessages])
+            console.log("chatScrollTop: ", chatScrollTop)
+            console.log('chatBoxRef.current.scrollHeight: ', chatBoxRef.current.scrollHeight)
+            console.log(chatBoxRef.current.scrollHeight - chatBoxRef.current.offsetHeight)
+            if (chatBoxRef.current && chatScrollTop <= (chatBoxRef.current.scrollHeight - chatBoxRef.current.offsetHeight)) {
+                setHaltUpdate(true)
+            } else {
+                setHaltUpdate(false)
+            }
+        }, [chatScrollTop])
+
+
+        useEffect(() => {
+            console.log("ping")
+            if (haltUpdate == false) {
+                getMessages({auth})
+                .then(response => {  
+                    setMessages(response.data)
+                })
+            }
+        }, [updateMessages, haltUpdate])
+
 
         useEffect(() => {
             setMessages(newMessages)
@@ -95,19 +113,32 @@ const Chat = () => {
 
         
         useEffect(() => {
-            if (chatBoxRef.current && chatBoxRef.current.scrollHeight > chatBoxRef.current.offsetHeight) {
-                console.log("scrollHeight: ", chatBoxRef.current.scrollHeight)
-                console.log("offsetHeight: ", chatBoxRef.current.offsetHeight)
-                setOverFlowNecessary(true)   
-            }
-        }, [messages])
+            if (chatBoxRef.current) {
+                if (chatBoxRef.current.scrollHeight > chatBoxRef.current.offsetHeight) {
+                    setOverFlowNecessary(true) 
+                }
+                chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight
+            }  
+        }, [messages, chatBoxRef])
 
 
         useEffect(() => {
-            if (chatBoxRef.current) {
-                chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight
+            if (socket.current) {
+                socket.current.onmessage = (event) => {
+                    console.log('NEW MESSAGE: ', event.data)
+                    const eventData = JSON.parse(event.data)
+                    if (eventData.message === "successful") {
+                        setUpdateMessages(!updateMessages)
+                    }
+                }
             }
-        })
+
+            return () => {
+                if (socket.current) {
+                    socket.current.onmessage = null
+                }
+            }
+        }, [socket])
 
 
         useEffect(() => {
@@ -129,34 +160,18 @@ const Chat = () => {
         }, [])
 
 
-        useEffect(() => {
-            if (socket.current) {
-                socket.current.onmessage = (event) => {
-                    console.log('NEW MESSAGE: ', event.data)
-                    const eventData = JSON.parse(event.data)
-                    if (eventData.message === "successful") {
-                        setUpdateMessages(!updateMessages)
-                    }
-                }
-            }
-
-            return () => {
-                if (socket.current) {
-                    socket.current.onmessage = null
-                }
-            }
-        }, [socket])
+        
 
         return (
-            <div ref={chatBoxRef} style={{ overflowY: overflowNecessary && "scroll",
-                                            width: "800px", height: "475px", border: "solid", boxShadow: "5px 5px 10px black" }} >
+            <div ref={chatBoxRef} style={{ overflowY: overflowNecessary && "scroll", height: "62.5vh",
+            border: "solid", boxShadow: "5px 5px 10px black" }} className="col-lg-6 col-12" onScroll={() => setChatScrollTop(chatBoxRef?.current?.scrollTop)}>
                 {messages && messages.map((message) => {
                     return (
                         <div key={message.id} 
                             style={{ borderBottom: "solid", borderColor: "grey", borderWidth: "1px", display: "flex", justifyContent: message.author.id == user ? "end" : "start"}}>
                             <div style={{ display: "flex", alignItems: "center", margin: "2.5%", marginLeft: "0px" }}>  
                                 <MessageProfilePicture author={message.author.id} picture={message.author.profile_picture} firstName={message.author.first_name} />
-                                <div style={{display: "flex", flexDirection: "column", alignItems: message.author.id === user ? "end" : "start", marginLeft: "50px"}}>
+                                <div style={{display: "flex", flexDirection: "column", alignItems: message.author.id === user ? "end" : "start", marginLeft: "50px", color: message.author.id === user && "black"}}>
                                     <MessageImage image={message.image}/>
                                     <p style={{margin: "0px"}}>{message.content}</p>
                                 </div>
@@ -173,7 +188,7 @@ const Chat = () => {
     return (
         <div>
             <Tabs activeTab="chat"/>
-            <div style={{display: "flex", margin: "10px"}}>
+            <div className="d-flex flex-wrap flex-lg-nowrap row" style={{margin: "10px"}}>
                 <Messages />
                 <ChatUpload newMessages={newMessages} setNewMessages={setNewMessages} socket={socket}/>
             </div>

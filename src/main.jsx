@@ -5,7 +5,6 @@ import {
   RouterProvider,
   Outlet,
 } from 'react-router-dom'
-import { useState, useEffect } from 'react'
 import { AuthContextProvider, UserContextProvider, AdminContextProvider } from './context'
 import 'uuid'
 

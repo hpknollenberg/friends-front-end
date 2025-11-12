@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from "react"
 import Tabs from "./Tabs"
 import UpcomingFilmsUpload from "./UpcomingFilmsUpload"
-import { AdminContext, AuthContext, ToggleContext, UserContext } from "./context"
+import { AdminContext, AuthContext, UserContext } from "./context"
 import { baseUrl, getFilms, editFilm, deleteFilm } from "./api"
 
 

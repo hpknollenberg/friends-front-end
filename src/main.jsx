@@ -5,8 +5,7 @@ import {
   RouterProvider,
   Outlet,
 } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import { AuthContextProvider, UserContextProvider, AdminContextProvider, ToggleContextProvider } from './context'
+import { AuthContextProvider, UserContextProvider, AdminContextProvider, NewMessageContextProvider } from './context'
 import 'uuid'
 
 //project styles
@@ -21,7 +20,7 @@ import Showtimes from './Showtimes.jsx'
 import UpcomingFilms from './UpcomingFilms.jsx'
 import Menu from './Menu.jsx'
 import Polls from './Polls.jsx'
-import Discussion from './Discussion.jsx'
+import Chat from './Chat.jsx'
 import Protected from './protectedroute.jsx'
 import Events from './Events.jsx'
 import Profile from './Profile.jsx'
@@ -72,8 +71,8 @@ const router = createBrowserRouter([
             element: <Polls />
           },
           {
-            path: 'discussion',
-            element: <Discussion />
+            path: 'chat',
+            element: <Chat />
           },
           {
             path: 'events',
@@ -92,13 +91,13 @@ const router = createBrowserRouter([
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <ToggleContextProvider>
     <AdminContextProvider>
       <UserContextProvider>
         <AuthContextProvider>
-          <RouterProvider router={router} />
+          <NewMessageContextProvider>
+            <RouterProvider router={router} />
+          </NewMessageContextProvider>
         </AuthContextProvider>
       </UserContextProvider>
     </AdminContextProvider> 
-  </ToggleContextProvider>
 )

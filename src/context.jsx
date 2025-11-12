@@ -69,15 +69,14 @@ export const AuthContextProvider = ({ children }) => {
   }
 
 
+  export const NewMessageContext = createContext()
 
-  export const ToggleContext = createContext()
-
-  export const ToggleContextProvider = ({ children }) => {
-    const [universalToggle, setUniversalToggle] = useState(false)
+  export const NewMessageContextProvider = ({ children }) => {
+    const [newMessage, setNewMessage] = useState(0)
 
     return(
-      <ToggleContext.Provider value={{universalToggle, setUniversalToggle}}>
+      <NewMessageContext.Provider value={{newMessage, setNewMessage}}>
         {children}
-      </ToggleContext.Provider>
+      </NewMessageContext.Provider>
     )
   }

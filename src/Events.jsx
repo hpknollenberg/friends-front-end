@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import Tabs from "./Tabs"
 import { baseUrl, deleteEvent, editEvent, getEvents, updateRsvp } from "./api"
-import { AdminContext, AuthContext, ToggleContext, UserContext } from "./context"
+import { AdminContext, AuthContext, UserContext } from "./context"
 import EventsUpload from "./EventsUpload"
 import { DateTime } from "luxon"
 

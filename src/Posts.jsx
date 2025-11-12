@@ -1,5 +1,5 @@
 import { getPosts, baseUrl, deletePost, editPost, updateLikes } from "./api"
-import { AdminContext, AuthContext, ToggleContext, UserContext } from "./context"
+import { AdminContext, AuthContext, UserContext } from "./context"
 import { useContext, useState, useEffect } from "react"
 
 
@@ -13,7 +13,6 @@ const Posts = () => {
     const [toggle, setToggle] = useState(false)
     const [deleteId, setDeleteId] = useState(0)
     const [deleteCheck, setDeleteCheck] = useState(false)
-    const {universalToggle, setUniversalToggle} = useContext(ToggleContext)
 
 
     useEffect(() => {
@@ -23,14 +22,13 @@ const Posts = () => {
             console.log("POSTS: ", posts)
         })
         .catch(error => console.log('DISPLAY POSTS ERROR: ', error))
-    }, [toggle, universalToggle])
+    }, [])
 
 
 
     const submitDeletePost = ({id}) => {
         if (deleteCheck === true && deleteId === id) {
             deletePost({auth, user, admin, id})
-            .then(()=> setUniversalToggle(universalToggle => !universalToggle))
         }
         setDeleteCheck(deleteCheck => !deleteCheck)
     }
@@ -80,7 +78,7 @@ const Posts = () => {
                 <textarea style={{ height: '100px', width: '95%', margin: "10px" }} onChange={e => setEditMessage(e.target.value)}>{content}</textarea>
                 <div>
                     <input style={{ margin: '10px', width: '275px' }} type="file" accept='image/*' onChange={e => setEditImage(e.target.files[0])} />
-                    <button style={{ margin: '10px' }} onClick={() => {editPost({auth, user, admin, id, editMessage, editImage}).then(()=> {setUniversalToggle(universalToggle => !universalToggle)})}}>Submit Edits</button>
+                    <button style={{ margin: '10px' }} onClick={() => {editPost({auth, user, admin, id, editMessage, editImage})}}>Submit Edits</button>
                 </div>
             </div>
             )

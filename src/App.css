@@ -3,7 +3,7 @@
   color: white;
   display: flex;
   flex-direction: column;
-  min-height: 85vh;
+  min-height: 75vh;
 }
 
 .header {
@@ -20,7 +20,7 @@ h2, h3, h5, h6 {
 }
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 8vmin;
   text-shadow: 4px 4px 4px black;
 }
 

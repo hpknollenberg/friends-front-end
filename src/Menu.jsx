@@ -1,7 +1,7 @@
 import Tabs from "./Tabs"
 import { useContext, useEffect, useState } from "react"
 import { deleteMenuItem, editMenuItem, getMenuItems } from "./api"
-import { AdminContext, AuthContext, ToggleContext } from "./context"
+import { AdminContext, AuthContext } from "./context"
 import MenuUpload from "./MenuUpload"
 
 const Menu = () => {  

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { AdminContext, AuthContext, ToggleContext } from "./context"
+import { AdminContext, AuthContext } from "./context"
 import { createMenuItem } from "./api"
 
 const MenuUpload = () => {

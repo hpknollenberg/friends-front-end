@@ -24,25 +24,6 @@ export const createComment = ({auth, user, content, discussion}) => {
 }
 
 
-export const createDiscussion = ({auth, user, admin, title, description, image}) => {
-  return axios({
-    method: 'post',
-    url: `${baseUrl}/create-discussion/`,
-    headers: {
-      Authorization: `Bearer ${auth.accessToken}`,
-      'Content-Type': 'multipart/form-data'
-    },
-    data: {
-      author: user,
-      is_admin: admin,
-      name: title,
-      description: description,
-      image: image
-    }
-  })
-}
-
-
 export const createEvent = ({ auth, admin, title, description, date, time, image }) => {
   return axios({
     method: 'post',
@@ -95,6 +76,23 @@ export const createMenuItem = ({ auth, admin, itemName, itemCategory, itemPrice 
       name: itemName,
       category: itemCategory,
       price: itemPrice
+    }
+  })
+}
+
+
+export const createMessage = ({auth, user, content, image}) => {
+  return axios({
+    method: 'post',
+    url: `${baseUrl}/create-message/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      author: user,
+      content: content,
+      image: image
     }
   })
 }
@@ -226,22 +224,6 @@ export const deleteComment = ({ auth, user, comment}) => {
 }
 
 
-export const deleteDiscussion = ({ auth, user, admin, discussion }) => {
-  return axios({
-    method: 'delete',
-    url: `${baseUrl}/delete-discussion/`,
-    headers: {
-      Authorization: `Bearer ${auth.accessToken}`,
-    },
-    data: {
-      author: user,
-      is_admin: admin,
-      discussion: discussion
-    }
-  })
-}
-
-
 export const deleteEvent = ({ auth, admin, event}) => {
   return axios({
     method: 'delete',
@@ -284,6 +266,21 @@ export const deleteMenuItem = ({ auth, admin, deleteId }) => {
     data: {
       is_admin: admin,
       menu_item: deleteId
+    }
+  })
+}
+
+
+export const deleteMessage = ({ auth, user, message }) => {
+  return axios({
+    method: 'delete',
+    url: `${baseUrl}/delete-message/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+    data: {
+      author: user,
+      message: message,
     }
   })
 }
@@ -448,22 +445,72 @@ export const editPost = ({ auth, user, admin, id, editMessage, editImage }) => {
 }
 
 
-export const editProfile = ({ auth, firstName, lastName, uploadImage, bio }) => {
+
+export const editProfileBio = ({ auth, bio }) => {
   return axios({
     method: 'put',
-    url: `${baseUrl}/edit-profile/`,
+    url: `${baseUrl}/edit-profile-bio/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      profile_bio: bio,
+    }
+  }).then(response => {
+      console.log("EDIT PROFILE BIO RESPONSE: ", response)
+      return response})
+}
+
+
+export const editProfileName = ({ auth, firstName, lastName }) => {
+  return axios({
+    method: 'put',
+    url: `${baseUrl}/edit-profile-name/`,
     headers: {
       Authorization: `Bearer ${auth.accessToken}`,
       'Content-Type': 'multipart/form-data'
     },
     data: {
       first_name: firstName,
-      last_name: lastName,
-      profile_picture: uploadImage,
-      bio: bio
+      last_name: lastName
     }
   }).then(response => {
-      console.log("EDIT PROFILE RESPONSE: ", response)
+      console.log("EDIT PROFILE BIO RESPONSE: ", response)
+      return response})
+}
+
+
+export const editProfilePicture = ({ auth, uploadImage }) => {
+  return axios({
+    method: 'put',
+    url: `${baseUrl}/edit-profile-picture/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      profile_picture: uploadImage,
+    }
+  }).then(response => {
+      console.log("EDIT PROFILE PICTURE RESPONSE: ", response)
+      return response})
+}
+
+
+export const editUsername = ({ auth, username }) => {
+  return axios({
+    method: 'put',
+    url: `${baseUrl}/edit-username/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      username: username,
+    }
+  }).then(response => {
+      console.log("EDIT USERNAME RESPONSE: ", response)
       return response})
 }
 
@@ -473,17 +520,6 @@ export const getComments = ({ auth }) => {
   return axios({
     mehtod: 'get',
     url: `${baseUrl}/get-comments`,
-    headers: {
-      Authorization: `Bearer ${auth.accessToken}`
-    }
-  })
-}
-
-
-export const getDiscussions = ({ auth }) => {
-  return axios({
-    method: 'get',
-    url: `${baseUrl}/get-discussions`,
     headers: {
       Authorization: `Bearer ${auth.accessToken}`
     }
@@ -517,6 +553,20 @@ export const getMenuItems = ({ auth }) => {
   return axios({
     method: 'get',
     url: `${baseUrl}/get-menu-items/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`
+    }
+  })
+}
+
+
+export const getMessages = ({ auth, count }) => {
+  return axios({
+    method: 'get',
+    url: `${baseUrl}/get-messages/`, 
+      params: {
+        count: count
+      },
     headers: {
       Authorization: `Bearer ${auth.accessToken}`
     }

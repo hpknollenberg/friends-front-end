@@ -560,10 +560,13 @@ export const getMenuItems = ({ auth }) => {
 }
 
 
-export const getMessages = ({ auth }) => {
+export const getMessages = ({ auth, count=100 }) => {
   return axios({
     method: 'get',
-    url: `${baseUrl}/get-messages`,
+    url: `${baseUrl}/get-messages/`, 
+      params: {
+        count: count
+      },
     headers: {
       Authorization: `Bearer ${auth.accessToken}`
     }

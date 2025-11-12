@@ -78,16 +78,14 @@ const Chat = () => {
         const [ messages, setMessages ] = useState([])
         const [ overflowNecessary, setOverFlowNecessary ] = useState(false)
         const chatBoxRef = useRef(null)
+        const [ renderCount, setRenderCount ] = useState(0)
         const WS_URL = "ws://127.0.0.1:8000/ws/chat/"
-        const [ chatScrollTop, setChatScrollTop ] = useState(chatBoxRef?.current?.scrollTop)
+        const [ chatScrollTop, setChatScrollTop ] = useState(chatBoxRef?.current?.scrollHeight)
         const [ updateMessages, setUpdateMessages ] = useState(false)
         const [ haltUpdate, setHaltUpdate ] = useState(false)
 
 
         useEffect(() => {
-            console.log("chatScrollTop: ", chatScrollTop)
-            console.log('chatBoxRef.current.scrollHeight: ', chatBoxRef.current.scrollHeight)
-            console.log(chatBoxRef.current.scrollHeight - chatBoxRef.current.offsetHeight)
             if (chatBoxRef.current && chatScrollTop <= (chatBoxRef.current.scrollHeight - chatBoxRef.current.offsetHeight)) {
                 setHaltUpdate(true)
             } else {
@@ -114,12 +112,11 @@ const Chat = () => {
         
         useEffect(() => {
             if (chatBoxRef.current) {
-                if (chatBoxRef.current.scrollHeight > chatBoxRef.current.offsetHeight) {
+                if (chatBoxRef.current.scrollHeight < chatBoxRef.current.offsetHeight) {
                     setOverFlowNecessary(true) 
                 }
-                chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight
             }  
-        }, [messages, chatBoxRef])
+        }, [messages])
 
 
         useEffect(() => {
@@ -159,11 +156,13 @@ const Chat = () => {
             }
         }, [])
 
+        /*useEffect(() => {
+            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight
+        })*/
 
-        
 
         return (
-            <div ref={chatBoxRef} style={{ overflowY: overflowNecessary && "scroll", height: "62.5vh",
+            <div ref={chatBoxRef} style={{ display: "flex", flexDirection: "column-reverse", overflowY: overflowNecessary && "scroll", height: "62.5vh",
             border: "solid", boxShadow: "5px 5px 10px black" }} className="col-lg-6 col-12" onScroll={() => setChatScrollTop(chatBoxRef?.current?.scrollTop)}>
                 {messages && messages.map((message) => {
                     return (

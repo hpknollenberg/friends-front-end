@@ -80,3 +80,17 @@ export const AuthContextProvider = ({ children }) => {
       </NewMessageContext.Provider>
     )
   }
+
+
+
+  export const CreateMessageContext = createContext()
+
+  export const CreateMessageContextProvider = ({ children }) => {
+    const [cm, setCM] = useState(null)
+
+    return(
+      <CreateMessageContext.Provider value={{cm, setCM}}>
+        {children}
+      </CreateMessageContext.Provider>
+    )
+  }

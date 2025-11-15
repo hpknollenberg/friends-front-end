@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { AuthContext, UserContext, NewMessageContext } from "./context"
+import { AuthContext, UserContext, NewMessageContext, CreateMessageContext } from "./context"
 import { createMessage, getMessages } from "./api"
 import { v4 as uuidv4 } from "uuid"
 
@@ -11,6 +11,7 @@ const ChatUpload = ({socket}) => {
     const [image, setImage] = useState("")
     const [ fileKey, setFileKey ] = useState(uuidv4())
     const { newMessage, setNewMessage } = useContext(NewMessageContext)
+    const { cm, setCM } = useContext(CreateMessageContext)
 
 
     let sendSocket = async () => {
@@ -22,7 +23,9 @@ const ChatUpload = ({socket}) => {
             sendSocket()
             .then(response => {
                 createMessage({auth, user, content, image})
-                .then(response => {  
+                .then(response => { 
+                    setCM(response.data)
+                    setNewMessage(count => count + 1) 
                     setContent("")
                     setFileKey(uuidv4())
                     setImage("") 

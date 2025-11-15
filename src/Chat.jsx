@@ -1,7 +1,7 @@
 import Tabs from "./Tabs"
 import ChatUpload from "./ChatUpload.jsx"
 import { useContext, useEffect, useState, useRef } from "react"
-import { AuthContext, UserContext, NewMessageContext } from "./context"
+import { AuthContext, UserContext, NewMessageContext, CreateMessageContext } from "./context"
 import { baseUrl, getMessages, deleteMessage } from "./api"
 
 
@@ -79,9 +79,7 @@ const Chat = () => {
         const [ chatScrollTop, setChatScrollTop ] = useState(0)
         const [ haltUpdate, setHaltUpdate ] = useState(false)
         const { newMessage, setNewMessage } = useContext(NewMessageContext)
-
-
-        
+        const { cm, setCM } = useContext(CreateMessageContext)
 
 
         useEffect(() => {
@@ -104,7 +102,6 @@ const Chat = () => {
             if (messages.length < 1) {
                 getMessages({auth, count: 100})
                 .then(response => {
-                    console.log("onload")
                     setMessages(response.data)
                 })
             }
@@ -112,13 +109,20 @@ const Chat = () => {
 
 
         useEffect(() => {
-            console.log(newMessage)
             if (haltUpdate == false && messages.length >= 1 && newMessage > 0) {
-                getMessages({auth, count: messages.length + newMessage})
-                .then(response => {  
-                    setMessages(response.data)  
-                    setNewMessage(count => count - count)
-                })
+                if (cm != null) {
+                    setMessages(m => [cm, ...m])
+                    setCM(null)
+                    setNewMessage(count => count - 1)
+                } else {
+                    getMessages({auth, count: messages.length + newMessage})
+                    .then(response => {  
+                        
+                            setMessages(response.data)  
+                            setNewMessage(count => count - count)
+                        
+                    })
+                }
             }
         }, [haltUpdate, newMessage])
 
